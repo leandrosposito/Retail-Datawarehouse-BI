@@ -7,8 +7,9 @@ from sqlalchemy.pool import NullPool
 # CONFIGURACION
 # =====================================================
 
-RUTA_CSV_ORIGINAL = r"C:\Users\leand\OneDrive\Desktop\Facu\bd2\Data Warehouse y BI\retail_bi\data\Walmart_sales.csv"
-CONEXION_URL = "postgresql://postgres.nzwkvmjhzhujmsqcnbhb:mK7rS1kILfgXopo2@aws-1-us-west-2.pooler.supabase.com:5432/postgres"
+RUTA_CSV_ORIGINAL = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "raw", "Walmart_sales.csv")
+DIR_DW = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "dw")
+CONEXION_URL = os.environ["DATABASE_URL"]  # ver .env.example
 
 engine = create_engine(
     CONEXION_URL,
@@ -278,13 +279,13 @@ def ejecutar_etl():
     # =================================================
     # EXPORTAR CSV
     # =================================================
-    dim_tiempo.to_csv("dim_tiempo.csv", index=False)
-    dim_tienda.to_csv("dim_tienda.csv", index=False)
-    dim_clima.to_csv("dim_clima.csv", index=False)
-    dim_combustible.to_csv("dim_combustible.csv", index=False)
-    dim_cpi.to_csv("dim_cpi.csv", index=False)
-    dim_desempleo.to_csv("dim_desempleo.csv", index=False)
-    fact_ventas.to_csv("fact_ventas.csv", index=False)
+    dim_tiempo.to_csv(os.path.join(DIR_DW, "dim_tiempo.csv"), index=False)
+    dim_tienda.to_csv(os.path.join(DIR_DW, "dim_tienda.csv"), index=False)
+    dim_clima.to_csv(os.path.join(DIR_DW, "dim_clima.csv"), index=False)
+    dim_combustible.to_csv(os.path.join(DIR_DW, "dim_combustible.csv"), index=False)
+    dim_cpi.to_csv(os.path.join(DIR_DW, "dim_cpi.csv"), index=False)
+    dim_desempleo.to_csv(os.path.join(DIR_DW, "dim_desempleo.csv"), index=False)
+    fact_ventas.to_csv(os.path.join(DIR_DW, "fact_ventas.csv"), index=False)
     print("CSV exportados correctamente")
 
     # =================================================
